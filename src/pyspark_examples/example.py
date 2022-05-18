@@ -19,11 +19,8 @@ def rdd_from_list(spark: SparkSession, input_list: list) -> RDD:
 
 def word_count(rdd: RDD) -> RDD:
     """Finds the frequency of each item in the RDD"""
-    counts = (
-        rdd.map(lambda word: word.lower())  # make lowercase to avoid dupes
-        .map(lambda word: (word, 1))  # map words to 1 to sum frequency
-        .reduceByKey(lambda a, b: a + b)  # sum the frequencies of each word
-    )
+    counts = rdd.map(lambda word: (word, 1))
+    counts = counts.reduceByKey(lambda a, b: a + b)
     return counts
 
 
