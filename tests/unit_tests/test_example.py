@@ -28,3 +28,20 @@ def test_word_count(test_spark):
     # validation
     assert counts.count() == 4
     assert set(counts.collect()) == expected
+
+
+def test_parse_words(test_spark):
+    """Test the parse_words() function"""
+    # setup
+    input_text = [
+        "A b,  c",
+        "f B d. e",
+        " a c a?",
+    ]
+    stop_words = ["e", "f"]
+    rdd = example.rdd_from_list(test_spark, input_text)
+    # execution
+    output = example.parse_words(rdd, stop_words).collect()
+    # validation
+    for word in output:
+        assert word in ["a", "b", "c", "d"]
