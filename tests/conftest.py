@@ -1,14 +1,11 @@
 import pytest
+from pyspark.sql import SparkSession
 
-from boilerplate.examples.classes import Person
 
-
-@pytest.fixture(scope="function")
-def alice():
-    """Returns a sample instance of the Person which gets recreated
-    for every pytest function. This instance has the following attributes:
-        first_name: Alice
-        last_name: Doe
-        age: 35
-    """
-    return Person("Alice", "Doe", 35)
+@pytest.fixture(scope="session", name="test_spark")
+def fixture_spark_context():
+    """Creates a SparkContext for testing"""
+    spark = SparkSession.builder.appName("TestApp").getOrCreate()
+    yield spark
+    print("Stopping spark session")
+    spark.stop()
