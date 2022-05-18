@@ -1,17 +1,29 @@
-from pyspark_examples.example import hello_world, rdd_from_list
+from pyspark_examples import example
 
 
 def test_hello_world():
     """Tests hello_world function"""
-    assert hello_world() == "Hello, World."
+    assert example.hello_world() == "Hello, World."
 
 
 def test_rdd_from_list(test_spark):
-    """Tests the rdd_from_list function"""
+    """Tests the rdd_from_list() function"""
     # setup
     input_list = [1, 2, 3]
     # execution
-    rdd = rdd_from_list(test_spark, input_list)
+    rdd = example.rdd_from_list(test_spark, input_list)
     # validation
     assert rdd.count() == 3
     assert rdd.sum() == 6
+
+
+def test_word_count(test_spark):
+    """Tests the word_count() function"""
+    # setup
+    input_list = ["a", "b", "c", "a", "a", "b", "c", "d"]
+    rdd = example.rdd_from_list(test_spark, input_list)
+    # execution
+    counts = example.word_count(rdd)
+    # validation
+    assert counts.count() == 4
+    assert counts.take(1) == [("a", 3)]
