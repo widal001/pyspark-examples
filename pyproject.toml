@@ -7,7 +7,7 @@ license = "MIT License"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pyspark = "^3.2.1"
+pyspark = "^3.2.2"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.13.0"
